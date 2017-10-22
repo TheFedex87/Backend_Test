@@ -1,0 +1,179 @@
+﻿@model Backend_Amaris_Test.ViewModel.WebDeveloperViewModel
+@{
+    ViewBag.Title = "WebDeveloperEdit";
+}
+
+<h2>Web Developer</h2>
+
+<form id="editWebDeveloper">
+    <div class="form-group">
+        @Html.LabelFor(x => x.FirstName)
+        @Html.TextBoxFor(x => x.FirstName, ViewBag.ReadOnly ? (object) new { @class = "form-control", disabled="disabled" } : new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.FirstName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.LastName)
+        @Html.TextBoxFor(x => x.LastName, ViewBag.ReadOnly ? (object)new { @class = "form-control", disabled = "disabled" } : new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.LastName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Address)
+        @Html.TextBoxFor(x => x.Address, ViewBag.ReadOnly ? (object)new { @class = "form-control", disabled = "disabled" } : new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Address)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email, ViewBag.ReadOnly ? (object)new { @class = "form-control", disabled = "disabled" } : new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.ContactPhone)
+        @Html.TextBoxFor(x => x.ContactPhone, ViewBag.ReadOnly ? (object)new { @class = "form-control", disabled = "disabled" } : new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.ContactPhone)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.DayOfBirth)
+        @Html.TextBoxFor(x => x.DayOfBirth, "{0:yyyy-MM-dd}", ViewBag.ReadOnly ? (object)new { @class = "form-control", disabled = "disabled" } : new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.DayOfBirth)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.YearsOfExperience)
+        @Html.TextBoxFor(x => x.YearsOfExperience, ViewBag.ReadOnly ? (object)new { @class = "form-control", disabled = "disabled" } : new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.YearsOfExperience)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Comments)
+        @Html.TextBoxFor(x => x.Comments, ViewBag.ReadOnly ? (object)new { @class = "form-control", disabled = "disabled" } : new { @class = "form-control" })
+    </div> 
+    <div class="form-group">
+        @Html.LabelFor(x => x.WebTechnologies)
+        <table>
+            <tbody>
+                @for (var i = 0; i < Model.WebTechnologies.Count; i++)
+                {
+                    if (i % 4 == 0)
+                    {
+                        @:<tr>
+                    }
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.WebTechnologies[i].IsSelected, ViewBag.ReadOnly ? (object)new { @class = "technology", disabled="disabled" } : new { @class = "technology" })@Model.WebTechnologies[i].Name
+                                @Html.HiddenFor(x => x.WebTechnologies[i].Name)
+                                @Html.HiddenFor(x => x.WebTechnologies[i].Id)
+                            </label>
+                        </div>
+                    </td>
+                    if (i % 4 == 3)
+                    {
+                        @:</tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <span class="field-validation-error" id="web-technologies-validation-message" style="display: none;">Select at least one Web technology</span>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Stacks)
+        <table>
+            <tbody>
+                @for (var i = 0; i < Model.Stacks.Count; i++)
+                {
+                    if (i % 4 == 0)
+                    {
+                        @:<tr>
+                    }
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.Stacks[i].IsSelected, ViewBag.ReadOnly ? (object)new { @class = "stack", disabled = "disabled" } : new { @class = "stack" })@Model.Stacks[i].Name
+                                @Html.HiddenFor(x => x.Stacks[i].Name)
+                                @Html.HiddenFor(x => x.Stacks[i].Id)
+                            </label>
+                        </div>
+                    </td>
+                    if (i % 4 == 5)
+                    {
+                        @:</tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <span class="field-validation-error" id="stack-validation-message" style="display: none;">Select at least one Stack</span>
+    </div>
+    @Html.HiddenFor(x => x.Id, new { id = "web-developer-id" })
+    @if (!ViewBag.ReadOnly)
+    {
+        <button class="btn btn-primary">Save</button>
+    }
+    else
+    {
+        <a href="/webdevelopers/list" class="btn btn-primary">Back to list</a>
+    }
+</form>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#editWebDeveloper").submit(function (e) {
+                var method;
+                var link;
+                if ($("#web-developer-id").val() == 0) {
+                    method = "post";
+                    link = "/api/webdevelopers";
+                }
+                else {
+                    method = "put";
+                    link = "/api/webdevelopers/" + $("#web-developer-id").val();
+                }
+                
+                e.preventDefault();
+                if ($("#editWebDeveloper").valid())
+                {
+                    if ($(".technology:checked").length > 0) {
+                        if ($(".stack:checked").length > 0) {
+                            $.ajax({
+                                url: link,
+                                method: method,
+                                data: $("#editWebDeveloper").serialize()
+                            })
+                            .done(function () {
+                                window.location = "/webdevelopers/list";
+                            })
+                            .fail(function (er) {
+                                //For a good practice here I should parse the response and show the appropriate
+                                //message validation of the wrong input parameters
+                                alert(er.statusText + "Insert correct parameters");
+                            });
+                        }
+                        else {
+                            $("#stack-validation-message").css({ "display": "block" });
+                        }
+                    }
+                    else {
+                        $("#web-technologies-validation-message").css({ "display": "block" });
+                    }
+                    return false;
+                }
+
+            });
+
+            $(".technology").change(function () {
+                if ($(".technology:checked").length > 0) 
+                    $("#web-technologies-validation-message").css({ "display": "none" });
+                else
+                    $("#web-technologies-validation-message").css({ "display": "block" });
+            });
+
+            $(".stack").change(function () {
+                if ($(".stack:checked").length > 0)
+                    $("#stack-validation-message").css({ "display": "none" });
+                else
+                    $("#stack-validation-message").css({ "display": "block" });
+            });
+        });
+    </script>
+}
+

@@ -198,11 +198,14 @@
       <DependentUpon>201710211350275_PopulateStackTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AtLeastOneStack.cs" />
+    <Compile Include="Models\AtLeastOneWebTechnology.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Stack.cs" />
     <Compile Include="Models\WebDeveloper.cs" />
     <Compile Include="Models\WebTechnology.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\StackViewModel.cs" />
     <Compile Include="ViewModel\WebDeveloperViewModel.cs" />
     <Compile Include="ViewModel\WebTechnologyViewModel.cs" />
   </ItemGroup>
@@ -370,6 +373,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -499,7 +504,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\WebDevelopers\List.cshtml" />
-    <Content Include="Views\WebDevelopers\Edit.cshtml" />
+    <Content Include="Views\WebDevelopers\WebDeveloperForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

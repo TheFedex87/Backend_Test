@@ -25,6 +25,7 @@
 
     </tbody>
 </table>
+<a href="/webdevelopers/create" class="btn btn-primary">New</a>
 
 @section Scripts
 {
@@ -66,10 +67,20 @@
                         data: "yearsOfExperience"
                     },
                     {
-                        data: "webTechnologies"
+                        data: "webTechnologies",
+                        render: function (data) {
+                            return $.map(data, function (d, i) {
+                                return d.name;
+                            }).join(', ');
+                        }
                     },
                     {
-                        data: "stacks"
+                        data: "stacks",
+                        render: function (data) {
+                            return $.map(data, function (d, i) {
+                                return d.name;
+                            }).join(', ');
+                        }
                     },
                     {
                         data: "comments"
@@ -77,10 +88,30 @@
                     {
                         data: "id",
                         render: function (data) {
-                            return "<a style='display: inline;' href='/webdevelopers/edit/" + data + "'>Edit</a><button style='display: inline;' class='btn-link js-delete' data-wd-id='" + data + "'>Delete</button>";
+                            return "<a style='display: block;' href='/webdevelopers/edit/" + data + "'>Edit</a><a style='display: block;' href='javasript:void()' class='btn-link js-delete' data-wd-id='" + data + "'>Delete</a><a style='display: block;' href='/webdevelopers/details/" + data + "' class='btn-link' data-wd-id='" + data + "'>Details</a>";
                         }
                     }
                 ]
+            });
+
+            $("#web-developers").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Do you confirm to delete this web developer?", function (result) {
+                    if (result) {
+                        var id = button.attr("data-wd-id");
+                        $.ajax({
+                            url: "/api/webdevelopers/" + id,
+                            method: "delete"
+                        })
+                        .done(function () {
+                            table.row(button.parents("tr")).remove().draw();
+                        })
+                        .fail(function (er) {
+                            alert(er.statusText + "Insert correct paraemters");
+                        });
+                    }
+                });
+                
             });
         });
     </script>

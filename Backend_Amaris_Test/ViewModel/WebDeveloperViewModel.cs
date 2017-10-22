@@ -44,8 +44,11 @@ namespace Backend_Amaris_Test.ViewModel
         [Column(TypeName = "text")]
         public string Comments { get; set; }
 
+        [AtLeastOneWebTechnology]
         public List<WebTechnologyViewModel> WebTechnologies { get; set; }
 
-        //public List<Stack> Stacks { get; set; }
+        [AtLeastOneStack]
+        public List<StackViewModel> Stacks { get; set; }
+
     }
 }
