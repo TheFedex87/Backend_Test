@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "WebDevelopers";
+}
+
+<h2>Web Developers</h2>
+
+<table id="web-developers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Contact Phone</th>
+            <th>Day of Birth</th>
+            <th>Years of Experience</th>
+            <th>Web Technologies</th>
+            <th>Stacks</th>
+            <th>Comments</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#web-developers").DataTable({
+                ajax: {
+                    url: "/api/webdevelopers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "firstName",
+                        render: function (data) {
+                            return data;
+                        }
+                    },
+                    {
+                        data: "lastName"
+                    },
+                    {
+                        data: "address"
+                    },
+                    {
+                        data: "email"
+                    },
+                    {
+                        data: "contactPhone"
+                    },
+                    {
+                        data: "dayOfBirth",
+                        render: function (data) {
+                            var javascriptDate = new Date(data);
+                            javascriptDate = javascriptDate.getDate()+"/"+(javascriptDate.getMonth()+1)+"/"+javascriptDate.getFullYear();
+                            return javascriptDate;
+                        }
+                    },
+                    {
+                        data: "yearsOfExperience"
+                    },
+                    {
+                        data: "webTechnologies"
+                    },
+                    {
+                        data: "stacks"
+                    },
+                    {
+                        data: "comments"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<a style='display: inline;' href='/webdevelopers/edit/" + data + "'>Edit</a><button style='display: inline;' class='btn-link js-delete' data-wd-id='" + data + "'>Delete</button>";
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
