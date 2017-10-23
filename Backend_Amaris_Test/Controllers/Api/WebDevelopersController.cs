@@ -24,7 +24,7 @@ namespace Backend_Amaris_Test.Controllers.Api
             }
 
             //Create the viewmodel
-            var wtViewModelList = new List<WebDeveloperViewModel>();
+            var wdViewModelList = new List<WebDeveloperViewModel>();
             foreach (var wd in wdList)
             {
                 //Here I could use some mapping tool instead of assign any single properties, for example AutoMapper
@@ -50,10 +50,50 @@ namespace Backend_Amaris_Test.Controllers.Api
                 {
                     wdViewModel.WebTechnologies.Add(new WebTechnologyViewModel { Id = wt.Id, IsSelected = true, Name = wt.Name });
                 }
-                wtViewModelList.Add(wdViewModel);
+                wdViewModelList.Add(wdViewModel);
             }
 
-            return Ok(wtViewModelList);
+            return Ok(wdViewModelList);
+        }
+
+        // GET api/webdevelopers/1
+        [HttpGet]
+        public IHttpActionResult WebDeveloper(int id)
+        {
+            //Extract developer from DB, including the two navigation properties stacks and web technologies
+            WebDeveloper wd;
+            using (var context = new Context())
+            {
+                wd = context.WebDeveloper.Include(x => x.Stacks).Include(x => x.WebTechnologies).SingleOrDefault(x => x.Id == id);
+            }
+
+            //Create the viewmodel
+            var wdViewModel = new WebDeveloperViewModel();
+
+            //Here I could use some mapping tool instead of assign any single properties, for example AutoMapper
+            wdViewModel.Address = wd.Address;
+            wdViewModel.Comments = wd.Comments;
+            wdViewModel.ContactPhone = wd.ContactPhone;
+            wdViewModel.DayOfBirth = wd.DayOfBirth;
+            wdViewModel.Email = wd.Email;
+            wdViewModel.FirstName = wd.FirstName;
+            wdViewModel.Id = wd.Id;
+            wdViewModel.LastName = wd.LastName;
+            wdViewModel.YearsOfExperience = wd.YearsOfExperience;
+            wdViewModel.Stacks = new List<StackViewModel>();
+            foreach (var stack in wd.Stacks)
+            {
+                wdViewModel.Stacks.Add(new StackViewModel { Id = stack.Id, IsSelected = true, Name = stack.Name });
+            }
+
+
+            wdViewModel.WebTechnologies = new List<WebTechnologyViewModel>();
+            foreach (var wt in wd.WebTechnologies)
+            {
+                wdViewModel.WebTechnologies.Add(new WebTechnologyViewModel { Id = wt.Id, IsSelected = true, Name = wt.Name });
+            }
+            
+            return Ok(wdViewModel);
         }
 
         // POST api/webdevelopers

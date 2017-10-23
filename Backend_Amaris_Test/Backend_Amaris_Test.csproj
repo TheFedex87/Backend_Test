@@ -197,6 +197,10 @@
     <Compile Include="Migrations\201710211350275_PopulateStackTable.Designer.cs">
       <DependentUpon>201710211350275_PopulateStackTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710230558315_PopulateWebTechnologiesTable.cs" />
+    <Compile Include="Migrations\201710230558315_PopulateWebTechnologiesTable.Designer.cs">
+      <DependentUpon>201710230558315_PopulateWebTechnologiesTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AtLeastOneStack.cs" />
     <Compile Include="Models\AtLeastOneWebTechnology.cs" />
@@ -528,6 +532,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710211350275_PopulateStackTable.resx">
       <DependentUpon>201710211350275_PopulateStackTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710230558315_PopulateWebTechnologiesTable.resx">
+      <DependentUpon>201710230558315_PopulateWebTechnologiesTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
